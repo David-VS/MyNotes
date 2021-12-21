@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import be.ehb.mynotes.R;
 import be.ehb.mynotes.fragments.util.NotesAdapter;
@@ -46,9 +47,9 @@ public class OverviewFragment extends Fragment {
         NotesAdapter adapter = new NotesAdapter(new ArrayList<>());
 
         NoteViewModel model = new ViewModelProvider(mContext).get(NoteViewModel.class);
-        model.getSharedNotes().observe(getViewLifecycleOwner(), new Observer<ArrayList<Note>>() {
+        model.getSharedNotes().observe(getViewLifecycleOwner(), new Observer<List<Note>>() {
             @Override
-            public void onChanged(ArrayList<Note> notes) {
+            public void onChanged(List<Note> notes) {
                 adapter.reloadNotes(notes);
             }
         });

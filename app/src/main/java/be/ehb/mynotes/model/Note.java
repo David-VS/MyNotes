@@ -1,19 +1,27 @@
 package be.ehb.mynotes.model;
 
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import org.threeten.bp.LocalDate;
 
 import java.io.Serializable;
 
+@Entity
 public class Note implements Serializable {
 
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private String title, content;
-    private LocalDate publishDate, lastModifiedDate;
+    private LocalDate publishDate;
+    private LocalDate lastModifiedDate;
 
     public Note() {
     }
 
+    @Ignore
     public Note(String title, String content) {
         this.title = title;
         this.content = content;

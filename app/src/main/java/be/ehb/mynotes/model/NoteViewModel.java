@@ -8,25 +8,26 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NoteViewModel extends AndroidViewModel {
 
-    private MutableLiveData<ArrayList<Note>> sharedNotes;
-    private ArrayList<Note> notes;
+    private LiveData<List<Note>> sharedNotes;
+    private NotesDatabase mDatabase;
 
     public NoteViewModel(@NonNull Application application) {
         super(application);
-        sharedNotes = new MutableLiveData<ArrayList<Note>>();
-        notes = new ArrayList<>();
-        sharedNotes.setValue(notes);
+        mDatabase = NotesDatabase.getInstance(application);
+        sharedNotes = mDatabase.getNotesDAO().getAllNotes();
     }
 
-    public MutableLiveData<ArrayList<Note>> getSharedNotes() {
+    public LiveData<List<Note>> getSharedNotes() {
         return sharedNotes;
     }
 
     public void insertNote(Note n){
-        notes.add(n);
-        sharedNotes.setValue(notes);
+        NotesDatabase.dbExecutor.execute(()->{
+                mDatabase.getNotesDAO().insertNote(n);
+        });
     }
 }
